@@ -85,7 +85,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog="spotify-image-downloader",
         usage="Simple command-line utility to download images for Spotify "
-              "users, artists, albums, and playlists."
+              "artists, albums, playlists, users, and tracks."
     )
     parser.add_argument(
         "id",

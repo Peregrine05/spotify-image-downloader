@@ -1,6 +1,7 @@
 import argparse
 import dotenv
 import os
+import sys
 
 import requests
 import spotipy
@@ -8,6 +9,11 @@ import spotipy
 
 CLIENT_ID_ENV = "SPOTIPY_CLIENT_ID"
 CLIENT_SECRET_ENV = "SPOTIPY_CLIENT_SECRET"
+
+script_path = os.path.dirname(os.path.realpath(__file__))
+workdir = os.getcwd()
+os.chdir(script_path)
+config_file_path = "config"
 
 
 def parse_id(resource):
@@ -77,7 +83,7 @@ def get_images(
 
 
 def main():
-    dotenv.load_dotenv(dotenv_path="config")
+    dotenv.load_dotenv(dotenv_path=config_file_path)
 
     spotify_client_id = os.getenv(CLIENT_ID_ENV)
     spotify_client_secret = os.getenv(CLIENT_SECRET_ENV)
@@ -124,7 +130,7 @@ def main():
     args = parser.parse_args()
 
     if args.clear:
-        with open("config", "wt") as config_file:
+        with open(config_file_path, "wt") as config_file:
             config_file.write(f'{CLIENT_ID_ENV} = \n{CLIENT_SECRET_ENV}: \n')
         return None
 
@@ -157,11 +163,13 @@ def main():
         file_name = largest_image["url"].split("/")[-1] + ".jpg"
 
     image = requests.get(largest_image["url"])
+    os.chdir(workdir)
     with open(file_name, "wb") as out_file:
         out_file.write(image.content)
+    os.chdir(script_path)
     
     if is_new_config and not args.one_time:
-        with open("config", "wt") as config_file:
+        with open(config_file_path, "wt") as config_file:
             config_file.write(
                 f"{CLIENT_ID_ENV} = {spotify_client_id}\n"
                 f"{CLIENT_SECRET_ENV} = {spotify_client_secret}\n"

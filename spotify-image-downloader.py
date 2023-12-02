@@ -143,11 +143,20 @@ def main():
 
     resource_type, resource_id = parse_id(args.id)
     images = []
-    get_images(resource_type,
-               resource_id,
-               images,
-               spotify_client_id,
-               spotify_client_secret)
+
+    try:
+        get_images(resource_type,
+                   resource_id,
+                   images,
+                   spotify_client_id,
+                   spotify_client_secret)
+    except spotipy.oauth2.SpotifyOauthError as e:
+        return print(e)
+    except spotipy.exceptions.SpotifyException:
+        return print(f"The resource at URL / URI: \"{args.id}\" could not be "
+                     f"retrieved. If the resource is a playlist, it must be "
+                     f"public before its data can be retrieved.")
+
     largest_image = images[0]
     
     if args.output is not None:

@@ -43,7 +43,9 @@ After the command completes successfully, `--client-id` and `--client-secret` ne
 ## General Usage
 
 ```commandLine
-usage: Simple command-line utility to download images for Spotify artists, albums, playlists, users, and tracks.
+usage: spotify-image-downloader [-h] [-o OUTPUT] [--client-id CLIENT_ID] [--client-secret CLIENT_SECRET] [--one-time] [--clear] id
+
+Simple command-line utility to download images for Spotify artists, albums, playlists, users, and tracks.
 
 positional arguments:
   id                    URL or URI of the Spotify resource.

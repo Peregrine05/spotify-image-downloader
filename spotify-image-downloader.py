@@ -10,6 +10,8 @@ CLIENT_ID_ENV = "SPOTIPY_CLIENT_ID"
 CLIENT_SECRET_ENV = "SPOTIPY_CLIENT_SECRET"
 
 script_path = os.path.dirname(os.path.realpath(__file__))
+if script_path.endswith("_internal"):
+    script_path = script_path[:-9]
 workdir = os.getcwd()
 os.chdir(script_path)
 config_file_path = "config"
